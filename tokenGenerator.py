@@ -4,6 +4,7 @@ import os
 import time
 import tkinter as tk
 from tkinter import ttk
+import sys
 
 def generate_sha256_tokens(num_tokens=100):
     tokens = []
@@ -16,7 +17,13 @@ def generate_sha256_tokens(num_tokens=100):
         tokens.append(sha512_hash)
 
     # Save tokens to file
-    current_dir = os.path.dirname(os.path.abspath(__file__))
+    if getattr(sys, 'frozen', False):
+        # If the application is run as a bundle (exe)
+        current_dir = os.path.dirname(sys.executable)
+    else:
+        # If the application is run from a Python interpreter
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        
     tokens_dir = os.path.join(current_dir, 'tokens')
     os.makedirs(tokens_dir, exist_ok=True)
     output_file = os.path.join(tokens_dir, f'generated_tokens_{len(tokens)}.txt')

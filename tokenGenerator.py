@@ -17,7 +17,9 @@ def generate_sha256_tokens(num_tokens=100):
 
     # Save tokens to file
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    output_file = os.path.join(current_dir, f'generated_tokens_{len(tokens)}.txt')
+    tokens_dir = os.path.join(current_dir, 'tokens')
+    os.makedirs(tokens_dir, exist_ok=True)
+    output_file = os.path.join(tokens_dir, f'generated_tokens_{len(tokens)}.txt')
 
     timestamp = str(int(time.time()))
     with open(output_file.replace('.txt', f'_{timestamp}.txt'), 'w') as f:
